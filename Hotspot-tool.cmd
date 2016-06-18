@@ -6,6 +6,13 @@ rem  --> test version for now
 mode con: cols=80 lines=30
 color 0a
 Title Hotspot Configurator
+
+rem  --> code for colored text without using powershell
+SETLOCAL EnableDelayedExpansion
+for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
+  set "DEL=%%a"
+)
+
 cls
 
 :: BatchGotAdmin
@@ -42,10 +49,11 @@ rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> GUI/menu of this tool
 :start
 cls
-powershell -Command Write-Host "If this is the first time using this script on this computer" -background "red" -foreground "yellow"
-powershell -Command Write-Host "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)" -background "red" -foreground "yellow"
+call :ColorText 4e "If this is the first time using this script on this computer"
+call :ColorText 4e "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)"
 ECHO.
-powershell -Command Write-Host "REMEMBER TO TURN OFF THE FIREWALL!!" -background "red" -foreground "yellow"
+call :ColorText 4e "REMEMBER TO TURN OFF THE FIREWALL!!"
+ECHO.
 ECHO --------------------------------------------------------------------------------
 ECHO [1] Configure hotspot
 ECHO --------------------------------------------------------------------------------
@@ -183,3 +191,11 @@ goto :EOF
 rem  --> option 7: closes the program
 :Closeprogram
 GOTO exit
+
+rem  --> code for colored text without using powershell
+:ColorText
+echo off
+<nul set /p ".=%DEL%" > "%~2"
+findstr /v /a:%1 /R "^$" "%~2" nul
+del "%~2" > nul 2>&1
+goto :eof
