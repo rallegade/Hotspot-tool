@@ -80,6 +80,9 @@ if %choice%==2 GOTO Starthotspot
 if %choice%==3 GOTO Stophotspot
 if %choice%==4 GOTO Netconfig
 if %choice%==5 GOTO Closeprogram
+echo Unknown action, please just enter the number.
+pause
+GOTO start
 
 rem  --> The start hotspot code
 :Starthotspot
