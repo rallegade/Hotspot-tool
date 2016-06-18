@@ -42,7 +42,8 @@ rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> GUI/menu of this tool
 :start
 cls
-powershell -Command Write-Host "If this is the first time using this script on this computer, turn on the hotspot by pressing 2 and then press 4 to configure network adapter settings." -background "red" -foreground "yellow"
+powershell -Command Write-Host "If this is the first time using this script on this computer" -background "red" -foreground "yellow"
+powershell -Command Write-Host "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)" -background "red" -foreground "yellow"
 ECHO.
 powershell -Command Write-Host "REMEMBER TO TURN OFF THE FIREWALL!!" -background "red" -foreground "yellow"
 ECHO --------------------------------------------------------------------------------
