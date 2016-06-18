@@ -81,9 +81,10 @@ set /p name=
 rem  --> This needs a way of not allowing userinputs under 8 characters
 ECHO What would you like the password to be? (minimum of 8 characters!)
 set /p key=
+cls
 netsh wlan set hostednetwork ssid=%name%
 netsh wlan set hostednetwork key=%key%
-netsh wlan start hostednetwork
+netsh wlan show hostednetwork setting=security
 pause
 GOTO start
 
@@ -100,11 +101,6 @@ ECHO Stopping hotspot
 netsh wlan stop hostednetwork
 pause
 GOTO start
-
-rem  --> Takes user back to the config hotspot code in the beginning of the script
-:Hotspotconfig
-cls
-GOTO Hotspot
 
 rem  --> Temporary fix for first time setting the windows hostednetwork up. This is only valid until i get something done in powershell
 :Netconfig
