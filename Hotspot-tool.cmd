@@ -3,7 +3,7 @@
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> Script version 1.2
 rem  --> test version for now
-mode con: cols=80 lines=25
+mode con: cols=100 lines=40
 color 0a
 Title Hotspot Configurator
 cls
@@ -147,6 +147,7 @@ GOTO start
 :Connecteddevices
 rem  --> option 6: Shows a list of connected devices
 @echo off 
+cls
 set hasClients=0
 arp -a | findstr /r "192\.168\.[0-9]*\.[2-9][^0-9] 192\.168\.[0-9]*\.[0-9][0-9][^0-9] 192\.168\.[0-9]*\.[0-1][0-9][0-9]" >test.tmp
 arp -a | findstr /r "192\.168\.[0-9]*\.2[0-46-9][0-9] 192\.168\.[0-9]*\.25[0-4]" >>test.tmp
