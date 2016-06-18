@@ -1,4 +1,5 @@
 @echo off
+
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> Script version 1.2
 rem  --> test version for now
@@ -39,7 +40,7 @@ if '%errorlevel%' NEQ '0' (
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 
 rem  --> hotspot configuration code
-:Hotspot
+:Hotspotconfig
 set /P c=Do you want to configure the hotspot before starting? [Y/N]?
 if /I "%c%" EQU "Y" netsh wlan stop hostednetwork
 if /I "%c%" EQU "Y" netsh wlan set hostednetwork mode=allow
@@ -57,30 +58,28 @@ if /I "%c%" EQU "N" GOTO start
 rem  --> GUI/menu of this tool
 :start
 cls
-powershell -Command Write-Host "If this is the first time using this script on this computer, turn on the hotspot by pressing 1 and then press 3 to configure network adapter settings." -background "red" -foreground "yellow"
+powershell -Command Write-Host "If this is the first time using this script on this computer, turn on the hotspot by pressing 2 and then press 4 to configure network adapter settings." -background "red" -foreground "yellow"
 ECHO.
 powershell -Command Write-Host "REMEMBER TO TURN OFF THE FIREWALL!!" -background "red" -foreground "yellow"
 ECHO --------------------------------------------------------------------------------
-ECHO 1.Turn on hotspot
+ECHO [1] Configure hotspot
 ECHO --------------------------------------------------------------------------------
-ECHO 2.Turn off hotspot
+ECHO [2] Turn on hotspot
 ECHO --------------------------------------------------------------------------------
-ECHO 3.Configure networkadapter
+ECHO [3] Turn off hotspot
 ECHO --------------------------------------------------------------------------------
-ECHO 4.Configure hotspot settings
+ECHO [4]Configure networkadapter
 ECHO --------------------------------------------------------------------------------
-ECHO 5.Close this script
+ECHO [5]Close this script
 ECHO --------------------------------------------------------------------------------
 
 rem  --> Code for the different choices made through GUI/menu
-CHOICE /C 12345 /M "Read all the possibillities and chose one:"
 
-:: Note - list ERRORLEVELS in decreasing order
-IF ERRORLEVEL 5 GOTO Closeprogram
-IF ERRORLEVEL 4 GOTO Hotspotconfig
-IF ERRORLEVEL 3 GOTO Netconfig
-IF ERRORLEVEL 2 GOTO Stophotspot
-IF ERRORLEVEL 1 GOTO Starthotspot
+if %choice%==1 GOTO Hotspotconfig
+if %choice%==2 GOTO Starthotspot
+if %choice%==3 GOTO Stophotspot
+if %choice%==4 GOTO Netconfig
+if %choice%==5 GOTO Closeprogram
 
 rem  --> The start hotspot code
 :Starthotspot
