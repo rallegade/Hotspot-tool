@@ -68,10 +68,11 @@ ECHO [2] Turn on hotspot
 ECHO --------------------------------------------------------------------------------
 ECHO [3] Turn off hotspot
 ECHO --------------------------------------------------------------------------------
-ECHO [4]Configure networkadapter
+ECHO [4] Configure networkadapter
 ECHO --------------------------------------------------------------------------------
-ECHO [5]Close this script
+ECHO [5] Close this script
 ECHO --------------------------------------------------------------------------------
+set /p choice=
 
 rem  --> Code for the different choices made through GUI/menu
 
@@ -80,7 +81,7 @@ if %choice%==2 GOTO Starthotspot
 if %choice%==3 GOTO Stophotspot
 if %choice%==4 GOTO Netconfig
 if %choice%==5 GOTO Closeprogram
-echo Unknown action, please just enter the number.
+ECHO Wrong input, please just enter a number between 1-5!.
 pause
 GOTO start
 
