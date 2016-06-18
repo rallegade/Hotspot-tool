@@ -39,22 +39,6 @@ if '%errorlevel%' NEQ '0' (
 
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 
-rem  --> hotspot configuration code
-:Hotspotconfig
-set /P c=Do you want to configure the hotspot before starting? [Y/N]?
-if /I "%c%" EQU "Y" netsh wlan stop hostednetwork
-if /I "%c%" EQU "Y" netsh wlan set hostednetwork mode=allow
-cls
-rem  --> This needs a way to restrict the user from using space in the name
-if /I "%c%" EQU "Y" ECHO What would you like to call the hotspot? (no spaces are allowed in the name!)
-if /I "%c%" EQU "Y" set /p name=
-rem  --> This needs a way of not allowing userinputs under 8 characters
-if /I "%c%" EQU "Y" ECHO What would you like the password to be? (minimum of 8 characters!)
-if /I "%c%" EQU "Y" set /p key=
-if /I "%c%" EQU "Y" netsh wlan set hostednetwork ssid=%name%
-if /I "%c%" EQU "Y" netsh wlan set hostednetwork key=%key%
-if /I "%c%" EQU "N" GOTO start
-
 rem  --> GUI/menu of this tool
 :start
 cls
@@ -82,6 +66,23 @@ if %choice%==3 GOTO Stophotspot
 if %choice%==4 GOTO Netconfig
 if %choice%==5 GOTO Closeprogram
 ECHO Wrong input, please just enter a number between 1-5!.
+pause
+GOTO start
+
+rem  --> hotspot configuration code
+:Hotspotconfig
+netsh wlan stop hostednetwork
+netsh wlan set hostednetwork mode=allow
+cls
+rem  --> This needs a way to restrict the user from using space in the name
+ECHO What would you like to call the hotspot? (no spaces are allowed in the name!)
+set /p name=
+rem  --> This needs a way of not allowing userinputs under 8 characters
+ECHO What would you like the password to be? (minimum of 8 characters!)
+set /p key=
+netsh wlan set hostednetwork ssid=%name%
+netsh wlan set hostednetwork key=%key%
+netsh wlan start hostednetwork
 pause
 GOTO start
 
