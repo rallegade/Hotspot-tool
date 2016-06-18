@@ -1,7 +1,6 @@
 @echo off
-rem  --> This script was made by: Rasmus HedekÃ¦r Krohn Gade
+rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> Script version 1.2
-rem  --> dette er en test
 mode con: cols=80 lines=25
 color 0a
 Title Hotspot konfiguration
@@ -37,17 +36,17 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------    
 
-rem  --> This script was made by: Rasmus HedekÃ¦r Krohn Gade
+rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 
 rem  --> hotspot configuration code
 :Hotspot
-set /P c=Vil du konfigurere hotspottet fÃ¸r det startes [Y/N]?
+set /P c=Vil du konfigurere hotspottet før det startes [Y/N]?
 if /I "%c%" EQU "Y" netsh wlan stop hostednetwork
 if /I "%c%" EQU "Y" netsh wlan set hostednetwork mode=allow
 rem  --> This needs a way to restrict the user from using space in the name
-if /I "%c%" EQU "Y" set /p name= Hvad vil du kalde dit hotspot? (navnet mÃ¥ ikke indeholde mellemrum!)
+if /I "%c%" EQU "Y" set /p name= Hvad vil du kalde dit hotspot? (navnet må ikke indeholde mellemrum!)
 rem  --> This needs a way of not allowing userinputs under 8 characters
-if /I "%c%" EQU "Y" set /p key= Hvad skal koden vÃ¦re til dit hotspot? (skal minimum vÃ¦re pÃ¥ 8 tegn!)
+if /I "%c%" EQU "Y" set /p key= Hvad skal koden være til dit hotspot? (skal minimum være på 8 tegn!)
 if /I "%c%" EQU "Y" netsh wlan set hostednetwork ssid=%name%
 if /I "%c%" EQU "Y" netsh wlan set hostednetwork key=%key%
 if /I "%c%" EQU "N" pause
@@ -55,15 +54,15 @@ if /I "%c%" EQU "N" pause
 rem  --> GUI/menu of this tool
 :start
 cls
-powershell -Command Write-Host "Hvis det er fÃ¸rste gang du bruger programmet, pÃ¥ din PC, skal du tÃ¦nde for hotspot ved at taste 1 og dernÃ¦st vÃ¦lge 'konfigurer netvÃ¦rksindtilling' ved at taste 3" -background "red" -foreground "yellow"
+powershell -Command Write-Host "Hvis det er første gang du bruger programmet, på din PC, skal du tænde for hotspot ved at taste 1 og dernæst vælge 'konfigurer netværksindtilling' ved at taste 3" -background "red" -foreground "yellow"
 ECHO.
-powershell -Command Write-Host "HUSK AT SLÃ… FIREWALL FRA!!!" -background "red" -foreground "yellow"
+powershell -Command Write-Host "HUSK AT SLÅ FIREWALL FRA!!!" -background "red" -foreground "yellow"
 ECHO --------------------------------------------------------------------------------
-ECHO 1.TÃ¦nd for hotspot
+ECHO 1.Tænd for hotspot
 ECHO --------------------------------------------------------------------------------
 ECHO 2.Sluk for hotspot
 ECHO --------------------------------------------------------------------------------
-ECHO 3.Konfigurer netvÃ¦rksindstilling
+ECHO 3.Konfigurer netværksindstilling
 ECHO --------------------------------------------------------------------------------
 ECHO 4.Konfigurer hotspotsindstillinger
 ECHO --------------------------------------------------------------------------------
@@ -71,7 +70,7 @@ ECHO 5.Luk dette program
 ECHO --------------------------------------------------------------------------------
 
 rem  --> Code for the different choices made through GUI/menu
-CHOICE /C 12345 /M "LÃ¦s fÃ¸rst alle mulighederne og vÃ¦lg derefter:"
+CHOICE /C 12345 /M "Læs først alle mulighederne og vælg derefter:"
 
 :: Note - list ERRORLEVELS in decreasing order
 IF ERRORLEVEL 5 GOTO Closeprogram
@@ -103,7 +102,7 @@ rem  --> Temporary fix for first time setting the windows hostednetwork up. This
 :Netconfig
 cls
 ECHO --------------------------------------------------------------------------------
-ECHO netvÃ¦rksindstillingerne Ã¥bnes nu, fÃ¸lg dernÃ¦st vejledningen der fÃ¸lger.
+ECHO netværksindstillingerne åbnes nu, følg dernæst vejledningen der følger.
 pause
 cls
 
@@ -112,16 +111,16 @@ explorer.exe ::{7007ACC7-3202-11D1-AAD2-00805FC1270E}
 
 rem  --> Guide for sharing the connection with other users
 ECHO --------------------------------------------------------------------------------
-ECHO 1: HÃ¸jreklik pÃ¥ dit trÃ¥dede netvÃ¦rk (vist med et ikon af to tÃ¦ndte skÃ¦rme og et stik) og vÃ¦lg egenskaber.
+ECHO 1: Højreklik på dit trådede netværk (vist med et ikon af to tændte skærme og et stik) og vælg egenskaber.
 pause
 ECHO --------------------------------------------------------------------------------
-ECHO 2: VÃ¦lg fanen "Deling"
+ECHO 2: Vælg fanen "Deling"
 pause
 ECHO --------------------------------------------------------------------------------
-ECHO 3: Ving kassen af med teksten "Tillad andre brugere pÃ¥ netvÃ¦rket at oprette forbindelse gennem denne computers internetforbindelse"
+ECHO 3: Ving kassen af med teksten "Tillad andre brugere på netværket at oprette forbindelse gennem denne computers internetforbindelse"
 pause
 ECHO --------------------------------------------------------------------------------
-ECHO 4: Tryk pÃ¥ kassen med teksten "vÃ¦lg en privat netvÃ¦rksforbindelse" og vÃ¦lg den  af lan forbindelserne der har et * ikon i navnet og tryk "ok"
+ECHO 4: Tryk på kassen med teksten "vælg en privat netværksforbindelse" og vælg den  af lan forbindelserne der har et * ikon i navnet og tryk "ok"
 ECHO --------------------------------------------------------------------------------
 
 pause
