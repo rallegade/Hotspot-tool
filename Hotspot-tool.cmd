@@ -1,6 +1,7 @@
 @echo off
-rem  --> This script was made by: Rasmus Hedekær Krohn Gade
+rem  --> This script was made by: Rasmus HedekÃ¦r Krohn Gade
 rem  --> Script version 1.2
+rem  --> test version for now
 mode con: cols=80 lines=25
 color 0a
 Title Hotspot Configurator
@@ -35,7 +36,7 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------    
 
-rem  --> This script was made by: Rasmus Hedekær Krohn Gade
+rem  --> This script was made by: Rasmus HedekÃ¦r Krohn Gade
 
 rem  --> hotspot configuration code
 :Hotspot
