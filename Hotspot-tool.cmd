@@ -3,7 +3,7 @@
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> Script version 1.2
 rem  --> test version for now
-mode con: cols=100 lines=40
+mode con: cols=80 lines=30
 color 0a
 Title Hotspot Configurator
 cls
