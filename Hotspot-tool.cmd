@@ -50,7 +50,9 @@ rem  --> GUI/menu of this tool
 :start
 cls
 call :ColorText 4e "If this is the first time using this script on this computer"
+ECHO.
 call :ColorText 4e "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)"
+ECHO.
 ECHO.
 call :ColorText 4e "REMEMBER TO TURN OFF THE FIREWALL!!"
 ECHO.
@@ -80,7 +82,7 @@ if %choice%==4 GOTO Netconfig
 if %choice%==5 GOTO Hotspotinfo
 if %choice%==6 GOTO Connecteddevices
 if %choice%==7 GOTO Closeprogram
-ECHO Wrong input, please just enter a number between 1-5!.
+ECHO Wrong input, please just enter a number between 1-7!.
 pause
 GOTO start
 
@@ -105,14 +107,12 @@ rem  --> option 2: The start hotspot code
 :Starthotspot
 ECHO Starting hotspot
 netsh wlan start hostednetwork
-pause
 GOTO start
 
 rem  --> option 3: The stop hotspot code
 :Stophotspot
 ECHO Stopping hotspot
 netsh wlan stop hostednetwork
-pause
 GOTO start
 
 rem  --> option 4: network adaptor settings
