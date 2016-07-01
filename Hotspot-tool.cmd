@@ -72,8 +72,6 @@ ECHO [7] Check for new versions of the script
 ECHO --------------------------------------------------------------------------------
 ECHO [8] Close this script
 ECHO --------------------------------------------------------------------------------
-ECHO.
-ECHO %Scriptversion%
 set /p choice=
 
 rem  --> Code for the different choices made through GUI/menu
