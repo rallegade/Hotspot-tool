@@ -228,6 +228,7 @@ call :ColorText 4e "You should consider updating the script though!"
 ECHO.
 ECHO.
 pause
+DEL version.cmd
 GOTO start
 
 :Uptodate
