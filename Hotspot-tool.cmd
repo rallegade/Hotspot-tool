@@ -215,15 +215,18 @@ powershell -command "& { (New-Object Net.WebClient).DownloadFile('%Download%', '
 echo deleting temporary files
 Del version.cmd
 ECHO.
-echo The newest version was downloaded to the same directory as this script is running from
+ECHO The newest version was downloaded to the same
+ECHO directory as this script is running from
 pause
 GOTO Closeprogram
 
 :Notupdating
 cls
-call :ColorText 4e "The script was not update!"
+call :ColorText 4e "The script was not updated!"
 ECHO.
 call :ColorText 4e "You should consider updating the script though!"
+ECHO.
+ECHO.
 pause
 GOTO start
 
