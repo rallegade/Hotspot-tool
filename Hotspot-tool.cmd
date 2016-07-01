@@ -203,18 +203,29 @@ if %Build% GTR %Scriptversion% GOTO Updater
 
 :Updater
 call :ColorText 4e "The current version of this script is not up to date!"
+ECHO.
 set /P c=Do you wish to download the newest version? [Y/N]
-if /I "%c%" EQU "N" goto Uptodate
+if /I "%c%" EQU "N" goto Notupdating
 if /I "%c%" EQU "Y" goto UpdateDownload
 
 :UpdateDownload
+cls
 Echo Downloading %Name%
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('%Download%', '%cd%\%Name%') }"
 echo deleting temporary files
 Del version.cmd
+ECHO.
 echo The newest version was downloaded to the same directory as this script is running from
 pause
 GOTO Closeprogram
+
+:Notupdating
+cls
+call :ColorText 4e "The script was not update!"
+ECHO.
+call :ColorText 4e "You should consider updating the script though!"
+pause
+GOTO start
 
 :Uptodate
 Echo The script is up to date!
