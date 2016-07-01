@@ -233,6 +233,7 @@ GOTO start
 
 :Uptodate
 Echo The script is up to date!
+DEL version.cmd
 pause
 GOTO start
 
