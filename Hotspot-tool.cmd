@@ -1,7 +1,7 @@
 @echo off
 
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
-SET Scriptversion=1.2
+SET Scriptversion=1.3
 mode con: cols=80 lines=31
 color 0a
 Title Hotspot Configurator
