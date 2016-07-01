@@ -1,8 +1,7 @@
 @echo off
 
 rem  --> This script was made by: Rasmus Hedekær Krohn Gade
-rem  --> Script version 1.2
-rem  --> test version for now
+SET Scriptversion=1.2
 mode con: cols=80 lines=30
 color 0a
 Title Hotspot Configurator
@@ -49,6 +48,8 @@ rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> GUI/menu of this tool
 :start
 cls
+call :ColorText 4e "%Scriptversion%"
+ECHO.
 call :ColorText 4e "If this is the first time using this script on this computer"
 ECHO.
 call :ColorText 4e "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)"
@@ -69,7 +70,9 @@ ECHO [5] Hotspot info
 ECHO --------------------------------------------------------------------------------
 ECHO [6] Connected devices
 ECHO --------------------------------------------------------------------------------
-ECHO [7] Close this script
+ECHO [7] Check for new versions of the script
+ECHO --------------------------------------------------------------------------------
+ECHO [8] Close this script
 ECHO --------------------------------------------------------------------------------
 set /p choice=
 
@@ -81,8 +84,9 @@ if %choice%==3 GOTO Stophotspot
 if %choice%==4 GOTO Netconfig
 if %choice%==5 GOTO Hotspotinfo
 if %choice%==6 GOTO Connecteddevices
-if %choice%==7 GOTO Closeprogram
-ECHO Wrong input, please just enter a number between 1-7!.
+if %choice%==7 GOTO Autoupdate
+if %choice%==8 GOTO Closeprogram
+ECHO Wrong input, please just enter a number between 1-8!.
 pause
 GOTO start
 
@@ -188,7 +192,35 @@ goto :EOF
 
 :EOF
 
-rem  --> option 7: closes the program
+rem  --> option 7: This is the autoupdate script, which checks this version of the script against the ones on github
+:: and downloads the new version if present.
+:Autoupdate
+powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://github.com/rallegade/Hotspot-tool/releases/download/V0.1/version.cmd', '%cd%\version.cmd') }"
+call version.cmd
+if %Build% EQU %Scriptversion% GOTO Uptodate
+if %Build% GTR %Scriptversion% GOTO Updater
+
+:Updater
+call :ColorText 4e "The current version of this script is not up to date!"
+set /P c=Do you wish to download the newest version? [Y/N]
+if /I "%c%" EQU "N" goto Uptodate
+if /I "%c%" EQU "Y" goto UpdateDownload
+
+:UpdateDownload
+Echo Downloading %Name%
+powershell -command "& { (New-Object Net.WebClient).DownloadFile('%Download%', '%cd%\%Name%') }"
+echo deleting temporary files
+Del version.cmd
+echo The newest version was downloaded to the same directory as this script is running from
+pause
+GOTO Closeprogram
+
+:Uptodate
+Echo The script is up to date!
+pause
+GOTO start
+
+rem  --> option 8: closes the program
 :Closeprogram
 GOTO exit
 
