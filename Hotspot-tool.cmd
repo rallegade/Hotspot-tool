@@ -48,8 +48,6 @@ rem  --> This script was made by: Rasmus Hedekær Krohn Gade
 rem  --> GUI/menu of this tool
 :start
 cls
-call :ColorText 4e "%Scriptversion%"
-ECHO.
 call :ColorText 4e "If this is the first time using this script on this computer"
 ECHO.
 call :ColorText 4e "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)"
@@ -74,6 +72,8 @@ ECHO [7] Check for new versions of the script
 ECHO --------------------------------------------------------------------------------
 ECHO [8] Close this script
 ECHO --------------------------------------------------------------------------------
+ECHO.
+ECHO %Scriptversion%
 set /p choice=
 
 rem  --> Code for the different choices made through GUI/menu
@@ -109,12 +109,14 @@ GOTO start
 
 rem  --> option 2: The start hotspot code
 :Starthotspot
+cls
 ECHO Starting hotspot
 netsh wlan start hostednetwork
 GOTO start
 
 rem  --> option 3: The stop hotspot code
 :Stophotspot
+cls
 ECHO Stopping hotspot
 netsh wlan stop hostednetwork
 GOTO start
@@ -195,6 +197,7 @@ goto :EOF
 rem  --> option 7: This is the autoupdate script, which checks this version of the script against the ones on github
 :: and downloads the new version if present.
 :Autoupdate
+cls
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://github.com/rallegade/Hotspot-tool/releases/download/V0.1/version.cmd', '%cd%\version.cmd') }"
 call version.cmd
 if %Build% EQU %Scriptversion% GOTO Uptodate
