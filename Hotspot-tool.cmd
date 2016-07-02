@@ -198,7 +198,7 @@ rem  --> option 7: This is the autoupdate script, which checks this version of t
 cls
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://github.com/rallegade/Hotspot-tool/releases/download/V0.1/version.cmd', '%cd%\version.cmd') }"
 call version.cmd
-if %Build% EQU %Scriptversion% GOTO Uptodate
+if %Build% LEQ %Scriptversion% GOTO Uptodate
 if %Build% GTR %Scriptversion% GOTO Updater
 
 :Updater
