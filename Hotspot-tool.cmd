@@ -1,13 +1,12 @@
 @echo off
 
-rem  --> This script was made by: Rasmus Hedekær Krohn Gade
-SET Scriptversion=1.3
+:: This script was made by: Rasmus Hedekær Krohn Gade https://github.com/rallegade/Hotspot-tool
+set Scriptversion=1.3
 mode con: cols=80 lines=31
 color 0a
 Title Hotspot Configurator
 
 rem  --> code for colored text without using powershell
-SETLOCAL EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "DEL=%%a"
 )
@@ -16,21 +15,21 @@ cls
 
 :: BatchGotAdmin
 :-------------------------------------
-REM  --> Check for permissions
+rem  --> Check for permissions
     IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
 >nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
 ) ELSE (
 >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
 )
 
-REM --> If error flag set, we do not have admin.
+rem --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
     echo Requesting administrative privileges...
     goto UACPrompt
 ) else ( goto gotAdmin )
 
 :UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    echo set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
     set params = %*:"=""
     echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
 
@@ -43,50 +42,50 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------    
 
-rem  --> This script was made by: Rasmus Hedekær Krohn Gade
+rem  --> This script was made by: Rasmus Hedekær Krohn Gade https://github.com/rallegade/Hotspot-tool
 
 rem  --> GUI/menu of this tool
 :start
 cls
 call :ColorText 4e "If this is the first time using this script on this computer"
-ECHO.
+echo.
 call :ColorText 4e "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)"
-ECHO.
-ECHO.
-call :ColorText 4e "REMEMBER TO TURN OFF THE FIREWALL!!"
-ECHO.
-ECHO --------------------------------------------------------------------------------
-ECHO [1] Configure hotspot
-ECHO --------------------------------------------------------------------------------
-ECHO [2] Turn on hotspot
-ECHO --------------------------------------------------------------------------------
-ECHO [3] Turn off hotspot
-ECHO --------------------------------------------------------------------------------
-ECHO [4] Configure networkadapter
-ECHO --------------------------------------------------------------------------------
-ECHO [5] Hotspot info
-ECHO --------------------------------------------------------------------------------
-ECHO [6] Connected devices
-ECHO --------------------------------------------------------------------------------
-ECHO [7] Check for new versions of the script
-ECHO --------------------------------------------------------------------------------
-ECHO [8] Close this script
-ECHO --------------------------------------------------------------------------------
+echo.
+echo.
+call :ColorText 4e "remEMBER TO TURN OFF THE FIREWALL!!"
+echo.
+echo --------------------------------------------------------------------------------
+echo [1] Configure hotspot
+echo --------------------------------------------------------------------------------
+echo [2] Turn on hotspot
+echo --------------------------------------------------------------------------------
+echo [3] Turn off hotspot
+echo --------------------------------------------------------------------------------
+echo [4] Configure networkadapter
+echo --------------------------------------------------------------------------------
+echo [5] Hotspot info
+echo --------------------------------------------------------------------------------
+echo [6] Connected devices
+echo --------------------------------------------------------------------------------
+echo [7] Check for new versions of the script
+echo --------------------------------------------------------------------------------
+echo [8] Close this script
+echo --------------------------------------------------------------------------------
 set /p choice=
 
 rem  --> Code for the different choices made through GUI/menu
 
-if %choice%==1 GOTO Hotspotconfig
-if %choice%==2 GOTO Starthotspot
-if %choice%==3 GOTO Stophotspot
-if %choice%==4 GOTO Netconfig
-if %choice%==5 GOTO Hotspotinfo
-if %choice%==6 GOTO Connecteddevices
-if %choice%==7 GOTO Autoupdate
-if %choice%==8 GOTO Closeprogram
-ECHO Wrong input, please just enter a number between 1-8!.
+if %choice%==1 goto Hotspotconfig
+if %choice%==2 goto Starthotspot
+if %choice%==3 goto Stophotspot
+if %choice%==4 goto Netconfig
+if %choice%==5 goto Hotspotinfo
+if %choice%==6 goto Connecteddevices
+if %choice%==7 goto Autoupdate
+if %choice%==8 goto Closeprogram
+echo Wrong input, please just enter a number between 1-8!.
 pause
-GOTO start
+goto start
 
 rem  --> option 1: hotspot configuration code
 :Hotspotconfig
@@ -94,37 +93,37 @@ netsh wlan stop hostednetwork
 netsh wlan set hostednetwork mode=allow
 cls
 rem  --> This needs a way to restrict the user from using space in the name
-ECHO What would you like to call the hotspot? (no spaces are allowed in the name!)
+echo What would you like to call the hotspot? (no spaces are allowed in the name!)
 set /p name=
 rem  --> This needs a way of not allowing userinputs under 8 characters
-ECHO What would you like the password to be? (minimum of 8 characters!)
+echo What would you like the password to be? (minimum of 8 characters!)
 set /p key=
 cls
 netsh wlan set hostednetwork ssid=%name%
 netsh wlan set hostednetwork key=%key%
 netsh wlan show hostednetwork setting=security
-GOTO start
+goto start
 
 rem  --> option 2: The start hotspot code
 :Starthotspot
 cls
-ECHO Starting hotspot
+echo Starting hotspot
 netsh wlan start hostednetwork
-GOTO start
+goto start
 
 rem  --> option 3: The stop hotspot code
 :Stophotspot
 cls
-ECHO Stopping hotspot
+echo Stopping hotspot
 netsh wlan stop hostednetwork
-GOTO start
+goto start
 
 rem  --> option 4: network adaptor settings
 rem  --> Temporary fix for first time setting the windows hostednetwork up. This is only valid until i get something done in powershell
 :Netconfig
 cls
-ECHO --------------------------------------------------------------------------------
-ECHO The network adapter settings is opening up now, please follow the instructions.
+echo --------------------------------------------------------------------------------
+echo The network adapter settings is opening up now, please follow the instructions.
 pause
 cls
 
@@ -132,21 +131,21 @@ rem  --> opens up network adapter settings
 explorer.exe ::{7007ACC7-3202-11D1-AAD2-00805FC1270E}
 
 rem  --> Guide for sharing the connection with other users
-ECHO --------------------------------------------------------------------------------
-ECHO 1: Right click the active ethernet (shown as two screens and an ethernet plug)  and then go to properties.
+echo --------------------------------------------------------------------------------
+echo 1: Right click the active ethernet (shown as two screens and an ethernet plug)  and then go to properties.
 pause
-ECHO --------------------------------------------------------------------------------
-ECHO 2: Switch to the tab called sharing
+echo --------------------------------------------------------------------------------
+echo 2: Switch to the tab called sharing
 pause
-ECHO --------------------------------------------------------------------------------
-ECHO 3: Tick to share connection with other users
+echo --------------------------------------------------------------------------------
+echo 3: Tick to share connection with other users
 pause
-ECHO --------------------------------------------------------------------------------
-ECHO 4: Click the box underneath the share connection option and choose the hosted   network option just created (can be identified by the * icon in it's name) and  press "ok"
-ECHO --------------------------------------------------------------------------------
+echo --------------------------------------------------------------------------------
+echo 4: Click the box underneath the share connection option and choose the hosted   network option just created (can be identified by the * icon in it's name) and  press "ok"
+echo --------------------------------------------------------------------------------
 
 pause
-GOTO start
+goto start
 
 rem  --> option 5: Shows information about the hotspot
 :Hotspotinfo
@@ -154,10 +153,11 @@ cls
 netsh wlan show hostednetwork
 netsh wlan show hostednetwork setting=security
 pause
-GOTO start
+goto start
 
-:Connecteddevices
 rem  --> option 6: Shows a list of connected devices
+:: This was made by JamesCullum check out his hotspot tool here https://github.com/JamesCullum/Windows-Hotspot
+:Connecteddevices
 @echo off 
 cls
 set hasClients=0
@@ -174,7 +174,7 @@ if %hasClients%==1 (
 )
 echo ------------------
 pause
-GOTO start
+goto start
 
 :process
 set VAR1=%1
@@ -184,8 +184,8 @@ del loop1.tmp
 goto :EOF
 
 :process2 
-SET VAR2=%2
-SET VAR3=%3
+set VAR2=%2
+set VAR3=%3
 set hasClients=1
 echo %VAR2% %VAR3% >>result.tmp
 goto :EOF 
@@ -196,50 +196,51 @@ rem  --> option 7: This is the autoupdate script, which checks this version of t
 :: and downloads the new version if present.
 :Autoupdate
 cls
+echo Checking the version of this script... Please whait.
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://github.com/rallegade/Hotspot-tool/releases/download/V0.1/version.cmd', '%cd%\version.cmd') }"
 call version.cmd
-if %Build% LEQ %Scriptversion% GOTO Uptodate
-if %Build% GTR %Scriptversion% GOTO Updater
+if %Build% LEQ %Scriptversion% goto Uptodate
+if %Build% GTR %Scriptversion% goto Updater
 
 :Updater
 call :ColorText 4e "The current version of this script is not up to date!"
-ECHO.
+echo.
 set /P c=Do you wish to download the newest version? [Y/N]
 if /I "%c%" EQU "N" goto Notupdating
 if /I "%c%" EQU "Y" goto UpdateDownload
 
 :UpdateDownload
 cls
-Echo Downloading %Name%
+echo Downloading %Name%
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('%Download%', '%cd%\%Name%') }"
 echo deleting temporary files
 Del version.cmd
-ECHO.
-ECHO The newest version was downloaded to the same
-ECHO directory as this script is running from
+echo.
+echo The newest version was downloaded to the same
+echo directory as this script is running from
 pause
-GOTO Closeprogram
+goto Closeprogram
 
 :Notupdating
 cls
 call :ColorText 4e "The script was not updated!"
-ECHO.
+echo.
 call :ColorText 4e "You should consider updating the script though!"
-ECHO.
-ECHO.
+echo.
+echo.
 pause
 DEL version.cmd
-GOTO start
+goto start
 
 :Uptodate
-Echo The script is up to date!
+echo The script is up to date!
 DEL version.cmd
 pause
-GOTO start
+goto start
 
 rem  --> option 8: closes the program
 :Closeprogram
-GOTO exit
+goto exit
 
 rem  --> code for colored text without using powershell
 :ColorText
