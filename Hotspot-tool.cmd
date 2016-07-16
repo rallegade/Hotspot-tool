@@ -197,11 +197,20 @@ rem  --> option 7: This is the autoupdate script, which checks this version of t
 :: and downloads the new version if present.
 :Autoupdate
 cls
+echo checking internet connection
+ping 8.8.8.8 -n 1 -w 1000
+cls
+if errorlevel 1 (goto :Nointernet) else (goto :Updatecheck)
+
+:Updatecheck
+cls
 echo Checking the version of this script... Please whait.
+:: This needs a way to tell the user if not connected to the internet.
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://github.com/rallegade/Hotspot-tool/releases/download/V0.1/version.cmd', '%cd%\version.cmd') }"
 call version.cmd
 if %Build% LEQ %Scriptversion% goto Uptodate
 if %Build% GTR %Scriptversion% goto Updater
+goto start
 
 :Updater
 call :ColorText 4e "The current version of this script is not up to date!"
@@ -223,6 +232,7 @@ pause
 goto Closeprogram
 
 :Notupdating
+DEL version.cmd
 cls
 call :ColorText 4e "The script was not updated!"
 echo.
@@ -230,12 +240,19 @@ call :ColorText 4e "You should consider updating the script though!"
 echo.
 echo.
 pause
-DEL version.cmd
 goto start
 
 :Uptodate
 echo The script is up to date!
 DEL version.cmd
+pause
+goto start
+
+:Nointernet
+call :ColorText 4e "You are not connected to the internet"
+echo.
+call :ColorText 4e "Connect to the internet and try again"
+echo.
 pause
 goto start
 
