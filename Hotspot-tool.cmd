@@ -7,7 +7,7 @@ color 0a
 Title Hotspot Configurator
 
 rem  --> code for colored text without using powershell
-setlocal EnableDelayedExpansion
+setLOCAL EnableDelayedExpansion
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (
   set "DEL=%%a"
 )
@@ -26,8 +26,8 @@ rem  --> Check for permissions
 rem --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
     echo Requesting administrative privileges...
-    goto UACPrompt
-) else ( goto gotAdmin )
+    goto :UACPrompt
+) else ( goto :gotAdmin )
 
 :UACPrompt
     echo set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
@@ -53,7 +53,7 @@ echo.
 call :ColorText 4e "configure hotspot (1), turn hotspot on (2) and configurate network adapter (4)"
 echo.
 echo.
-call :ColorText 4e "remEMBER TO TURN OFF THE FIREWALL!!"
+call :ColorText 4e "REMEMBER TO TURN OFF THE FIREWALL"
 echo.
 echo --------------------------------------------------------------------------------
 echo [1] Configure hotspot
@@ -76,51 +76,51 @@ set /p choice=
 
 rem  --> Code for the different choices made through GUI/menu
 
-if %choice%==1 goto Hotspotconfig
-if %choice%==2 goto Starthotspot
-if %choice%==3 goto Stophotspot
-if %choice%==4 goto Netconfig
-if %choice%==5 goto Hotspotinfo
-if %choice%==6 goto Connecteddevices
-if %choice%==7 goto Autoupdate
-if %choice%==8 goto Closeprogram
+if %choice%==1 goto :Hotspotconfig
+if %choice%==2 goto :Starthotspot
+if %choice%==3 goto :Stophotspot
+if %choice%==4 goto :Netconfig
+if %choice%==5 goto :Hotspotinfo
+if %choice%==6 goto :Connecteddevices
+if %choice%==7 goto :Autoupdate
+if %choice%==8 goto :Closeprogram
 echo Wrong input, please just enter a number between 1-8!.
 pause
-goto start
+goto :start
 
 rem  --> option 1: hotspot configuration code
 :Hotspotconfig
 netsh wlan stop hostednetwork
 netsh wlan set hostednetwork mode=allow
 cls
-rem  --> This needs a way to restrict the user from using space in the name
+::This needs a way to restrict the user from using space in the name
 echo What would you like to call the hotspot? (no spaces are allowed in the name!)
 set /p name=
-rem  --> This needs a way of not allowing userinputs under 8 characters
+::This needs a way of not allowing userinputs under 8 characters
 echo What would you like the password to be? (minimum of 8 characters!)
 set /p key=
 cls
 netsh wlan set hostednetwork ssid=%name%
 netsh wlan set hostednetwork key=%key%
 netsh wlan show hostednetwork setting=security
-goto start
+goto :start
 
 rem  --> option 2: The start hotspot code
 :Starthotspot
 cls
 echo Starting hotspot
 netsh wlan start hostednetwork
-goto start
+goto :start
 
 rem  --> option 3: The stop hotspot code
 :Stophotspot
 cls
 echo Stopping hotspot
 netsh wlan stop hostednetwork
-goto start
+goto :start
 
 rem  --> option 4: network adaptor settings
-rem  --> Temporary fix for first time setting the windows hostednetwork up. This is only valid until i get something done in powershell
+::Temporary fix for first time setting the windows hostednetwork up. This is only valid until i get something done in powershell
 :Netconfig
 cls
 echo --------------------------------------------------------------------------------
@@ -128,10 +128,10 @@ echo The network adapter settings is opening up now, please follow the instructi
 pause
 cls
 
-rem  --> opens up network adapter settings
+::opens up network adapter settings
 explorer.exe ::{7007ACC7-3202-11D1-AAD2-00805FC1270E}
 
-rem  --> Guide for sharing the connection with other users
+::Guide for sharing the connection with other users
 echo --------------------------------------------------------------------------------
 echo 1: Right click the active ethernet (shown as two screens and an ethernet plug)  and then go to properties.
 pause
@@ -146,7 +146,7 @@ echo 4: Click the box underneath the share connection option and choose the host
 echo --------------------------------------------------------------------------------
 
 pause
-goto start
+goto :start
 
 rem  --> option 5: Shows information about the hotspot
 :Hotspotinfo
@@ -154,7 +154,7 @@ cls
 netsh wlan show hostednetwork
 netsh wlan show hostednetwork setting=security
 pause
-goto start
+goto :start
 
 rem  --> option 6: Shows a list of connected devices
 :: This was made by JamesCullum check out his hotspot tool here https://github.com/JamesCullum/Windows-Hotspot
@@ -175,7 +175,7 @@ if %hasClients%==1 (
 )
 echo ------------------
 pause
-goto start
+goto :start
 
 :process
 set VAR1=%1
@@ -196,6 +196,7 @@ goto :EOF
 rem  --> option 7: This is the autoupdate script, which checks this version of the script against the ones on github
 :: and downloads the new version if present.
 :Autoupdate
+::this part checks for internet connection
 cls
 echo checking internet connection
 ping 8.8.8.8 -n 1 -w 1000
@@ -205,19 +206,18 @@ if errorlevel 1 (goto :Nointernet) else (goto :Updatecheck)
 :Updatecheck
 cls
 echo Checking the version of this script... Please whait.
-:: This needs a way to tell the user if not connected to the internet.
 powershell -command "& { (New-Object Net.WebClient).DownloadFile('https://github.com/rallegade/Hotspot-tool/releases/download/V0.1/version.cmd', '%cd%\version.cmd') }"
 call version.cmd
-if %Build% LEQ %Scriptversion% goto Uptodate
-if %Build% GTR %Scriptversion% goto Updater
-goto start
+if %Build% LEQ %Scriptversion% goto :Uptodate
+if %Build% GTR %Scriptversion% goto :Updater
+goto :start
 
 :Updater
 call :ColorText 4e "The current version of this script is not up to date!"
 echo.
 set /P c=Do you wish to download the newest version? [Y/N]
-if /I "%c%" EQU "N" goto Notupdating
-if /I "%c%" EQU "Y" goto UpdateDownload
+if /I "%c%" EQU "N" goto :Notupdating
+if /I "%c%" EQU "Y" goto :UpdateDownload
 
 :UpdateDownload
 cls
@@ -229,7 +229,7 @@ echo.
 echo The newest version was downloaded to the same
 echo directory as this script is running from
 pause
-goto Closeprogram
+goto :Closeprogram
 
 :Notupdating
 DEL version.cmd
@@ -240,25 +240,26 @@ call :ColorText 4e "You should consider updating the script though!"
 echo.
 echo.
 pause
-goto start
+goto :start
 
 :Uptodate
 echo The script is up to date!
 DEL version.cmd
 pause
-goto start
+goto :start
 
 :Nointernet
 call :ColorText 4e "You are not connected to the internet"
 echo.
 call :ColorText 4e "Connect to the internet and try again"
 echo.
+echo.
 pause
-goto start
+goto :start
 
 rem  --> option 8: closes the program
 :Closeprogram
-goto exit
+goto :exit
 
 rem  --> code for colored text without using powershell
 :ColorText
