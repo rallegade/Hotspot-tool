@@ -1,7 +1,7 @@
 @echo off
 
 :: This script was made by: Rasmus Hedekær Krohn Gade https://github.com/rallegade/Hotspot-tool
-set Scriptversion=1.3
+set Scriptversion=1.4
 mode con: cols=80 lines=31
 color 0a
 Title Hotspot Configurator
